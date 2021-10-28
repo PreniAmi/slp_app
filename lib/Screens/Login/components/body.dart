@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:slp_app/Screens/HomeScreen/home_screen.dart';
 import 'package:slp_app/Screens/Signup/signup_screen.dart';
 import 'package:slp_app/components/already_have_an_account_check.dart';
 import 'package:slp_app/components/rounded_button.dart';
@@ -70,6 +71,15 @@ class _BodyState extends State<Body> {
                     print("Password is Empty");
                   } else {
                     context.read<AuthService>().login(email,password);
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context){
+                          return const HomeScreen();
+                        },
+                      ),
+                    );
                   }
                 }
 

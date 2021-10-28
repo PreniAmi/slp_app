@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:slp_app/Screens/HomeScreen/home_screen.dart';
 import 'package:slp_app/Screens/Login/login_screen.dart';
 import 'package:slp_app/components/already_have_an_account_check.dart';
 import 'package:slp_app/components/rounded_button.dart';
@@ -18,6 +21,7 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +53,12 @@ class _BodyState extends State<Body> {
                   icon: Icons.person,
                   onChanged: (value){}
               ),
+              RoundedInputField(
+                  controller: phoneNumberController,
+                  hintText: "Phone Number",
+                  icon: Icons.phone,
+                  onChanged: (value){}
+              ),
               RoundedPasswordField(
                   controller: passwordController,
                   onChanged: (value){}
@@ -58,6 +68,7 @@ class _BodyState extends State<Body> {
                 press: (){
                   String email = emailController.text.trim();
                   String password = passwordController.text.trim();
+                  String phone = phoneNumberController.text.trim();
 
                   if(email.isEmpty){
                     print("Email is Empty");
@@ -65,7 +76,28 @@ class _BodyState extends State<Body> {
                     if(password.isEmpty){
                       print("Password is Empty");
                     } else {
-                      context.read<AuthService>().signUp(email,password);
+                      context.read<AuthService>().signUp(
+                          email,
+                          password
+                      ).then((value) async {
+                        User user = FirebaseAuth.instance.currentUser;
+
+                        await FirebaseFirestore.instance.collection("users").doc(user.uid).set({
+                          'uid': user.uid,
+                          'email': email,
+                          'phone': phone,
+                        });
+                      }
+                      );
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context){
+                            return const HomeScreen();
+                          },
+                        ),
+                      );
                     }
                   }
                 },

@@ -43,9 +43,9 @@ class AuthWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = context.watch<User>();
 
-    //if (user != null) {
-      //return HomeScreen();
-    //}
+    if (user != null) {
+      return HomeScreen();
+    }
 
     return const WelcomeScreen();
   }

@@ -12,7 +12,7 @@ class AuthService {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       return "Logged In";
     } catch(e) {
-      return "e";
+      return e.toString();
     }
   }
 
@@ -21,7 +21,16 @@ class AuthService {
       await _auth.createUserWithEmailAndPassword(email: email, password: password);
       return "Signed Up";
     } catch(e) {
-      return "e";
+      return e.toString();
+    }
+  }
+
+  Future<String> signOut() async {
+    try{
+      await _auth.signOut();
+      return "Signed Out";
+    } catch(e) {
+      return e.toString();
     }
   }
 }
