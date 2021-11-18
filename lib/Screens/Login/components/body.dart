@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:slp_app/Screens/HomeScreen/home_screen.dart';
 import 'package:slp_app/Screens/Signup/signup_screen.dart';
@@ -76,7 +77,7 @@ class _BodyState extends State<Body> {
                       context,
                       MaterialPageRoute(
                         builder: (context){
-                          return const HomeScreen();
+                          return HomeScreen();
                         },
                       ),
                     );
